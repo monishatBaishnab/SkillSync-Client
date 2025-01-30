@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import { fontSans } from "../config/fonts";
 import { Providers } from "../providers/providers";
+import Navbar from "../components/navbar";
 
 export const metadata: Metadata = {
   title: "SkillSync",
@@ -35,7 +36,10 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <main>{children}</main>
+          <header className="h-16 border-b border-b-neutral-200/80">
+            <Navbar />
+          </header>
+          {children}
         </Providers>
       </body>
     </html>
