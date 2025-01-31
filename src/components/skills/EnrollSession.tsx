@@ -6,7 +6,7 @@ import {
   ModalBody,
   useDisclosure,
 } from "@heroui/modal";
-import { Loader, Save, Video } from "lucide-react";
+import { FolderOpen, Loader, Save, Video } from "lucide-react";
 import { RadioGroup, Radio } from "@heroui/radio";
 import { cn } from "@heroui/theme";
 import { useEffect, useState } from "react";
@@ -48,10 +48,8 @@ const EnrollSession = ({ skillId }: { skillId: string | undefined }) => {
       [{ key: "skill_id", value: skillId as string }],
       { skip: !skillId },
     );
-  const [createSession, { isLoading, isSuccess, data: df }] =
-    useCreateSessionMutation();
+  const [createSession, { isLoading, isSuccess }] = useCreateSessionMutation();
 
-  console.log(df);
   const availabilities = groupByDate(data?.data?.availabilities);
 
   const handleEnrollSession = () => {
@@ -100,69 +98,82 @@ const EnrollSession = ({ skillId }: { skillId: string | undefined }) => {
               </ModalHeader>
               <ModalBody>
                 <div className="pb-4 space-y-5">
-                  <div
-                    className="flex items-center justify-center gap-1 overflow-x-auto pb-1 mb-1"
-                    id="dashboard-sidebar"
-                  >
-                    {Object.keys(availabilities)?.map((date) => {
-                      return (
-                        <button
-                          key={date}
-                          className={cn(
-                            "px-2 py-1 border border-neutral-200 rounded-md text-nowrap",
-                            date === selectedDate
-                              ? "text-royal-blue-500 border-royal-blue-500"
-                              : "",
-                          )}
-                          onClick={() => setSelectedDate(date)}
-                        >
-                          {date}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <RadioGroup>
-                    <div className="grid gap-2 grid-cols-1 sm:grid-cols-2">
-                      {availabilities?.[selectedDate]?.map((availability) => {
-                        return (
-                          <Radio
-                            key={availability?.id}
-                            classNames={{
-                              base: cn(
-                                "flex m-0 bg-natural-50 hover:bg-natural-100 items-center ",
-                                "max-w-full cursor-pointer rounded-lg gap-4 px-4 py-2 border-1 border-natural-200",
-                                "data-[selected=true]:border-royal-blue-500",
-                              ),
-                            }}
-                            isDisabled={availability?.status === "BOOKED"}
-                            name={`${availability?.start_time} - ${availability?.end_time}`}
-                            value={`${availability?.start_time} - ${availability?.end_time}`}
-                            onChange={() =>
-                              setSelectedSession({
-                                start_time: availability.start_time,
-                                end_time: availability.end_time,
-                                id: availability.id,
-                              })
-                            }
-                          >
-                            {availability?.start_time} -{" "}
-                            {availability?.end_time}
-                          </Radio>
-                        );
-                      })}
+                  {!Object.keys(availabilities)?.length ? (
+                    <div className="flex items-center justify-center flex-col">
+                      <FolderOpen className="text-neutral-500 size-16" />
+                      <h4 className="text-lg text-neutral-700 font-semibold">
+                        No slot&apos;s found.
+                      </h4>
                     </div>
-                  </RadioGroup>
-                  <button
-                    className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all"
-                    onClick={handleEnrollSession}
-                  >
-                    {isLoading || isLoading ? (
-                      <Loader className="size-5 animate-spin" />
-                    ) : (
-                      <Save className="size-5" />
-                    )}
-                    Save
-                  </button>
+                  ) : (
+                    <>
+                      <div
+                        className="flex items-center justify-center gap-1 overflow-x-auto pb-1 mb-1"
+                        id="dashboard-sidebar"
+                      >
+                        {Object.keys(availabilities)?.map((date) => {
+                          return (
+                            <button
+                              key={date}
+                              className={cn(
+                                "px-2 py-1 border border-neutral-200 rounded-md text-nowrap",
+                                date === selectedDate
+                                  ? "text-royal-blue-500 border-royal-blue-500"
+                                  : "",
+                              )}
+                              onClick={() => setSelectedDate(date)}
+                            >
+                              {date}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <RadioGroup>
+                        <div className="grid gap-2 grid-cols-1 sm:grid-cols-2">
+                          {availabilities?.[selectedDate]?.map(
+                            (availability) => {
+                              return (
+                                <Radio
+                                  key={availability?.id}
+                                  classNames={{
+                                    base: cn(
+                                      "flex m-0 bg-natural-50 hover:bg-natural-100 items-center ",
+                                      "max-w-full cursor-pointer rounded-lg gap-4 px-4 py-2 border-1 border-natural-200",
+                                      "data-[selected=true]:border-royal-blue-500",
+                                    ),
+                                  }}
+                                  isDisabled={availability?.status === "BOOKED"}
+                                  name={`${availability?.start_time} - ${availability?.end_time}`}
+                                  value={`${availability?.start_time} - ${availability?.end_time}`}
+                                  onChange={() =>
+                                    setSelectedSession({
+                                      start_time: availability.start_time,
+                                      end_time: availability.end_time,
+                                      id: availability.id,
+                                    })
+                                  }
+                                >
+                                  {availability?.start_time} -{" "}
+                                  {availability?.end_time}
+                                </Radio>
+                              );
+                            },
+                          )}
+                        </div>
+                      </RadioGroup>
+                      <button
+                        className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all"
+                        onClick={handleEnrollSession}
+                      >
+                        {isLoading || isLoading ? (
+                          <Loader className="size-5 animate-spin" />
+                        ) : (
+                          <Save className="size-5" />
+                        )}
+                        Save
+                      </button>
+                    </>
+                  )}
                 </div>
               </ModalBody>
             </>

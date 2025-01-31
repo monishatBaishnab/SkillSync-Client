@@ -21,3 +21,28 @@ export type TFormElementProps = {
 };
 
 export type TQueryParams = { name: string; value: string }[] | undefined;
+
+
+export interface Session {
+  id: string;
+  skill_id: string;
+  teacher_id: string;
+  learner_id: string;
+  session_date: string;
+  start_time: string;
+  end_time: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
+  skill?: {
+    name: string;
+  };
+}
+
+export interface Event {
+  id: string;
+  title: string;
+  start: string;
+  end: string;
+}

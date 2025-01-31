@@ -11,16 +11,14 @@ import { createEventModalPlugin } from "@schedule-x/event-modal";
 import "@schedule-x/theme-default/dist/index.css";
 import { useEffect } from "react";
 
-import { Event } from "@//types";
-
 // Fix: Explicitly type the calendar with assertion
-function Scheduler({ schedulerData }: { schedulerData: Event[] }) {
+function EmptyScheduler() {
   const plugins = [createEventModalPlugin(), createEventsServicePlugin()];
 
   const calendar = useNextCalendarApp(
     {
       views: [createViewWeek(), createViewMonthGrid(), createViewMonthAgenda()],
-      events: schedulerData,
+      events: [],
     },
     plugins,
   ) as typeof useNextCalendarApp extends (...args: any) => infer R
@@ -31,7 +29,7 @@ function Scheduler({ schedulerData }: { schedulerData: Event[] }) {
     if (calendar?.eventsService) {
       calendar.eventsService.getAll();
     }
-  }, [calendar, schedulerData]);
+  }, [calendar]);
 
   return (
     <div className="max-w-full h-[500px]">
@@ -40,4 +38,4 @@ function Scheduler({ schedulerData }: { schedulerData: Event[] }) {
   );
 }
 
-export default Scheduler;
+export default EmptyScheduler;

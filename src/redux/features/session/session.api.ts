@@ -11,7 +11,7 @@ const sessionApi = baseApi.injectEndpoints({
         });
 
         return {
-          url: "/sessions",
+          url: "/session",
           method: "GET",
           params,
         };
