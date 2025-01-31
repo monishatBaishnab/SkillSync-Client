@@ -2,7 +2,7 @@ import { Rss } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 const TeacherCard = () => {
   return (
     <div className="border p-3 rounded-md transition-all hover:ring-2 hover:ring-offset-2 hover:ring-royal-blue-500">

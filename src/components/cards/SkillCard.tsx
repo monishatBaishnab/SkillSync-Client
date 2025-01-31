@@ -2,9 +2,10 @@ import { Logs, Video } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 import SkillActions from "./SkillActions";
+import EnrollSession from "../skills/EnrollSession";
 const SkillCard = ({
   mode = "all-skill",
 }: {
@@ -26,9 +27,7 @@ const SkillCard = ({
       </div>
       <div>
         {mode === "all-skill" ? (
-          <button className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 hover:text-royal-blue-500 hover:border-royal-blue-500 transition-all active:bg-white">
-            <Video className="size-4" /> Join
-          </button>
+          <EnrollSession />
         ) : (
           <SkillActions />
         )}

@@ -9,12 +9,13 @@ import {
 import { Plus, Save } from "lucide-react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
-import TForm from "./form/TForm";
-import TInput from "./form/TInput";
-import TTextarea from "./form/TTextarea";
-import TSelect from "./form/TSelect";
-import TFile from "./form/TFile";
-import TDatePicker from "./form/TDatePicker";
+import TForm from "../form/TForm";
+import TInput from "../form/TInput";
+import TTextarea from "../form/TTextarea";
+import TSelect from "../form/TSelect";
+import TFile from "../form/TFile";
+
+import { categories } from "@//config/category.config";
 const CreateSkill = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -29,7 +30,11 @@ const CreateSkill = () => {
       >
         <Plus /> Create
       </button>
-      <Modal scrollBehavior="outside" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        scrollBehavior="outside"
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {() => (
             <>
@@ -44,20 +49,10 @@ const CreateSkill = () => {
                       name="name"
                       placeholder="Write a skill name"
                     />
-                    <TDatePicker
-                      label="Skill Name"
-                      name="date"
-                      placeholder="Write a skill name"
-                    />
                     <TSelect
                       label="Skill Category"
                       name="category"
-                      options={[
-                        {
-                          key: "software-development",
-                          label: "Software Development",
-                        },
-                      ]}
+                      options={categories}
                       placeholder="Select skill category"
                     />
                     <TTextarea
