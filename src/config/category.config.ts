@@ -32,3 +32,13 @@ export const categories = [
     label: "Machine Learning",
   },
 ];
+export const availability = [
+  {
+    key: "available",
+    label: "Available",
+  },
+  {
+    key: "not-available",
+    label: "Not Available",
+  },
+];

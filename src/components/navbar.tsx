@@ -1,9 +1,15 @@
 "use client";
 
-import { LogOut, Search } from "lucide-react";
+import { LayoutDashboard, LogOut, Search, User, UserCog } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 
 import logo from "../assets/logo.png";
 
@@ -34,10 +40,46 @@ const Navbar = () => {
           <Search />
         </button>
       </div>
-      <button className="flex items-center gap-2 text-neutral-500 text-sm px-3 py-2 border border-neutral-100 rounded-md hover:bg-neutral-50 transition-all active:bg-white">
-        <LogOut className="size-5" />
-        <span className="hidden sm:block">Logout</span>
-      </button>
+      <Dropdown
+        classNames={{ content: "border-neutral-100 p-0" }}
+        placement="bottom-end"
+        radius="sm"
+      >
+        <DropdownTrigger className="outline-none">
+          <button className="p-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 hover:text-royal-blue-500 hover:border-royal-blue-500 transition-all active:bg-white">
+            <User />
+          </button>
+        </DropdownTrigger>
+        <DropdownMenu
+          aria-label="skill-actions"
+          itemClasses={{
+            base: [
+              "text-neutral-600 font-medium",
+              "data[hover=true]:text-neutral-700 data-[hover=true]:bg-[#F4F4F4]",
+              "px-4 py-2.5",
+            ],
+          }}
+        >
+          <DropdownItem
+            key="dashboard"
+            startContent={<LayoutDashboard className="size-5" />}
+          >
+            Dashboard
+          </DropdownItem>
+          <DropdownItem
+            key="profile"
+            startContent={<UserCog className="size-5" />}
+          >
+            Profile
+          </DropdownItem>
+          <DropdownItem
+            key="logout"
+            startContent={<LogOut className="size-5" />}
+          >
+            Logout
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
   );
 };

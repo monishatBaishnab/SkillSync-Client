@@ -1,11 +1,13 @@
-import { Logs, Video } from "lucide-react";
+"use client";
+
+import { Logs, User } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
 import logo from "../../assets/logo.png";
+import EnrollSession from "../skills/EnrollSession";
 
 import SkillActions from "./SkillActions";
-import EnrollSession from "../skills/EnrollSession";
 const SkillCard = ({
   mode = "all-skill",
 }: {
@@ -19,19 +21,19 @@ const SkillCard = ({
         </div>
         <div>
           <h3 className="text-lg font-bold">Learn React</h3>
-          <div className="flex items-center gap-1 text-sm text-neutral-500">
-            <Logs className="size-5 text-royal-blue-500" />
-            12 Slots Available
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-1 text-sm text-neutral-500">
+              <Logs className="size-5 text-royal-blue-500" />
+              12 Slots
+            </div>
+            <div className="flex items-center gap-1 text-sm text-neutral-500">
+              <User className="size-5 text-royal-blue-500" />
+              Monishat
+            </div>
           </div>
         </div>
       </div>
-      <div>
-        {mode === "all-skill" ? (
-          <EnrollSession />
-        ) : (
-          <SkillActions />
-        )}
-      </div>
+      <div>{mode === "all-skill" ? <EnrollSession /> : <SkillActions />}</div>
     </div>
   );
 };
