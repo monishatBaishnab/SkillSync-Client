@@ -1,9 +1,9 @@
 "use client";
 
-import { LayoutDashboard, LogOut, Search, User, UserCog } from "lucide-react";
+import { LayoutDashboard, LogOut, User, UserCog } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useRef } from "react";
 import {
   Dropdown,
   DropdownTrigger,
@@ -51,15 +51,19 @@ const Navbar = () => {
         </div>
         <h2 className="text-2xl font-bold hidden md:block">Skill Sync</h2>
       </button>
-      <div className="border border-neutral-100 rounded-md flex items-center px-3 max-w-96 grow">
+      {/* <div className="border border-neutral-100 rounded-md flex items-center px-3 max-w-96 grow">
         <input
+          ref={searchRef}
           className="h-full outline-none focus:outline-none py-2.5 w-full"
           placeholder="Search"
         />
-        <button className="text-neutral-500 hover:text-royal-blue-500 transition-all">
+        <button
+          className="text-neutral-500 hover:text-royal-blue-500 transition-all"
+          
+        >
           <Search />
         </button>
-      </div>
+      </div> */}
       {user?.email ? (
         <Dropdown
           classNames={{ content: "border-neutral-100 p-0" }}

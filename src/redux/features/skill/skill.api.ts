@@ -16,6 +16,7 @@ const sessionApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["skills"],
     }),
     createSkill: builder.mutation({
       query: (data) => {
@@ -25,15 +26,26 @@ const sessionApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+      invalidatesTags: ["skills"],
     }),
     updateSkill: builder.mutation({
       query: (data) => {
         return {
-          url: "/skills",
-          method: "PUT",
-          body: data,
+          url: `/skills/${data?.id}`,
+          method: `PUT`,
+          body: data?.data,
         };
       },
+      invalidatesTags: ["skills"],
+    }),
+    deleteSkill: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/skills/${id}`,
+          method: `DELETE`,
+        };
+      },
+      invalidatesTags: ["skills"]
     }),
   }),
 });
@@ -42,4 +54,5 @@ export const {
   useFetchAllSkillQuery,
   useCreateSkillMutation,
   useUpdateSkillMutation,
+  useDeleteSkillMutation
 } = sessionApi;

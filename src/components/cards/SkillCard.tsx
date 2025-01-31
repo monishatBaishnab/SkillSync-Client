@@ -2,11 +2,9 @@
 
 import { LayoutList, User, Video } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { ReactNode } from "react";
 
 import EnrollSession from "../skills/EnrollSession";
-
-import SkillActions from "./SkillActions";
 
 import { TSkill } from "@//types/types";
 import { useAppSelector } from "@//redux/hooks";
@@ -14,9 +12,10 @@ import { useAppSelector } from "@//redux/hooks";
 type TSkillCardProps = {
   mode?: "my-skill" | "all-skill";
   skill?: TSkill;
+  actions?: ReactNode;
 };
 
-const SkillCard = ({ mode = "all-skill", skill }: TSkillCardProps) => {
+const SkillCard = ({ mode = "all-skill", skill, actions }: TSkillCardProps) => {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
@@ -40,7 +39,7 @@ const SkillCard = ({ mode = "all-skill", skill }: TSkillCardProps) => {
                 skill?.Availability?.filter(
                   (item) => item?.status === "AVAILABLE",
                 )?.length
-              }{" "}
+              }
               Slots
             </div>
             <div className="flex items-center gap-1 text-sm text-neutral-500">
@@ -55,12 +54,15 @@ const SkillCard = ({ mode = "all-skill", skill }: TSkillCardProps) => {
           user?.email ? (
             <EnrollSession skillId={skill?.id} />
           ) : (
-            <button disabled className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto">
+            <button
+              disabled
+              className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
+            >
               <Video className="size-4" /> Join
             </button>
           )
         ) : (
-          <SkillActions />
+          actions
         )}
       </div>
     </div>

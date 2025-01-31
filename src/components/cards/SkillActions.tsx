@@ -7,7 +7,7 @@ import {
 } from "@heroui/dropdown";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
 
-const SkillActions = () => {
+const SkillActions = ({ onAction }: { onAction: (event: string) => void }) => {
   return (
     <Dropdown
       classNames={{ content: "border-neutral-100 p-0" }}
@@ -29,10 +29,18 @@ const SkillActions = () => {
           ],
         }}
       >
-        <DropdownItem key="update" startContent={<Pencil className="size-5" />}>
+        <DropdownItem
+          key="update"
+          startContent={<Pencil className="size-5" />}
+          onPress={() => onAction("update")}
+        >
           Update
         </DropdownItem>
-        <DropdownItem key="delete" startContent={<Trash2 className="size-5" />}>
+        <DropdownItem
+          key="delete"
+          startContent={<Trash2 className="size-5" />}
+          onPress={() => onAction("delete")}
+        >
           Delete
         </DropdownItem>
       </DropdownMenu>

@@ -1,13 +1,7 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  useDisclosure,
-} from "@heroui/modal";
-import { Plus, Save } from "lucide-react";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
+import { Save } from "lucide-react";
+import { FieldValues } from "react-hook-form";
 
 import TForm from "../form/TForm";
 import TInput from "../form/TInput";
@@ -16,20 +10,32 @@ import TSelect from "../form/TSelect";
 import TFile from "../form/TFile";
 
 import { categories } from "@//config/category.config";
-const CreateSkill = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+import { TSkill } from "@//types/types";
+
+type TSkillCreationModal = {
+  isOpen: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
+  onOpenChange?: () => void;
+  onSubmit: (data: FieldValues) => void;
+  skill?: TSkill;
+};
+
+const SkillCreationModal = ({
+  isOpen,
+  onOpenChange,
+  onSubmit,
+  skill,
+}: TSkillCreationModal) => {
+  const defaultValues = {
+    name: skill?.name,
+    category: skill?.category,
+    description: skill?.description,
+    image: skill?.image,
   };
 
   return (
     <>
-      <button
-        className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all"
-        onClick={onOpen}
-      >
-        <Plus /> Create
-      </button>
       <Modal
         isOpen={isOpen}
         scrollBehavior="outside"
@@ -42,7 +48,7 @@ const CreateSkill = () => {
                 Create Skill
               </ModalHeader>
               <ModalBody>
-                <TForm onSubmit={handleSubmit}>
+                <TForm defaultValues={defaultValues || {}} onSubmit={onSubmit}>
                   <div className="space-y-4 pb-4">
                     <TInput
                       label="Skill Name"
@@ -79,4 +85,4 @@ const CreateSkill = () => {
   );
 };
 
-export default CreateSkill;
+export default SkillCreationModal;

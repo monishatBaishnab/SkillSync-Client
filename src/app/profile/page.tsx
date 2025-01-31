@@ -1,21 +1,119 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useDisclosure } from "@heroui/modal";
+import { Plus } from "lucide-react";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
-import CreateSkill from "@//components/skills/CreateSkill";
+import SkillCreationModal from "@//components/skills/SkillCreationModal";
 import SkillCard from "@//components/cards/SkillCard";
+import {
+  useCreateSkillMutation,
+  useDeleteSkillMutation,
+  useFetchAllSkillQuery,
+  useUpdateSkillMutation,
+} from "@//redux/features/skill/skill.api";
+import { TSkill } from "@//types/types";
+import useUser from "@//hooks/useUser";
+import SkillCardSkeleton from "@//components/cards/SkillCardSkeleton";
+import SkillActions from "@//components/cards/SkillActions";
 
 const Skills = () => {
-  return ( 
+  const user = useUser();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [skill, setSkill] = useState<TSkill | undefined>();
+
+  const {
+    data: skillsResponse,
+    isLoading,
+    isFetching,
+  } = useFetchAllSkillQuery([{ key: "user_id", value: user?.id as string }], {
+    skip: !user?.id,
+  });
+  let skills = skillsResponse?.data?.skills;
+
+  const [createSkill, { isLoading: creating, isSuccess: created }] =
+    useCreateSkillMutation();
+  const [updateSkill, { isLoading: updating, isSuccess: updated }] =
+    useUpdateSkillMutation();
+  const [deleteSkill] = useDeleteSkillMutation();
+
+  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+    const categories = Array.from(data?.category);
+    const skillData = {
+      name: data?.name,
+      category: categories?.[0],
+      description: data?.description,
+    };
+    const formData = new FormData();
+
+    if (data.image) {
+      formData.append("file", data.image);
+    }
+
+    // Append userData and shopData as JSON strings
+    formData.append("data", JSON.stringify(skillData));
+
+    if (skill) {
+      updateSkill({ data: formData, id: skill?.id });
+    } else {
+      createSkill(formData);
+    }
+  };
+
+  const handleAction = (action: string, data: TSkill) => {
+    if (action === "update") {
+      setSkill(data);
+      onOpen();
+    } else if (action === "delete") {
+      deleteSkill(data?.id);
+    }
+  };
+
+  useEffect(() => {
+    if ((!creating && created) || (!updating && updated)) {
+      onClose();
+      toast.success("Action Completed.");
+    }
+  }, [creating, updating, created, updated]);
+
+  return (
     <div className="container py-10 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">My Skills</h2>
-        <CreateSkill />
+        <button
+          className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all"
+          onClick={() => {
+            onOpen();
+            setSkill(undefined);
+          }}
+        >
+          <Plus /> Create
+        </button>
+        <SkillCreationModal
+          isOpen={isOpen}
+          skill={skill}
+          onOpenChange={onOpenChange}
+          onSubmit={handleSubmit}
+        />
       </div>
       <div className="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <SkillCard mode="my-skill" />
-        <SkillCard mode="my-skill" />
-        <SkillCard mode="my-skill" />
-        <SkillCard mode="my-skill" />
-        <SkillCard mode="my-skill" />
+        {isLoading || isFetching
+          ? Array.from({ length: 6 }).map((_, id) => (
+              <SkillCardSkeleton key={id} />
+            ))
+          : skills?.map((skill: TSkill) => (
+              <SkillCard
+                key={skill?.id}
+                actions={
+                  <SkillActions
+                    onAction={(event) => handleAction(event, skill)}
+                  />
+                }
+                mode="my-skill"
+                skill={skill}
+              />
+            ))}
       </div>
     </div>
   );
