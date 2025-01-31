@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 import TForm from "../form/TForm";
 import TInput from "../form/TInput";
@@ -67,6 +68,7 @@ const Auth = () => {
     if (isSuccess && !isLoading) {
       const user = jwtDecode(data.data.token);
 
+      Cookies.set('token', loginData.data.token);
       toast.success("Register Success.");
       dispatch(login({ user, token: data.data.token }));
       onClose();
@@ -76,6 +78,7 @@ const Auth = () => {
     if (loginSuccess && !loggining) {
       const user = jwtDecode(loginData.data.token);
 
+      Cookies.set('token', loginData.data.token);
       toast.success("Login Success.");
       dispatch(login({ user, token: loginData.data.token }));
       onClose();

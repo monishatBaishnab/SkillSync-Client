@@ -2,7 +2,7 @@
 
 import { LayoutDashboard, LogOut, Search, User, UserCog } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import {
   Dropdown,
@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/dropdown";
+import Cookies from "js-cookie";
 
 import logo from "../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -21,9 +22,18 @@ const Navbar = () => {
   const route = useRouter();
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     dispatch(logout());
+    Cookies.remove("token");
+    if (
+      ["/profile", "/profile/:path*", "/dashboard", "/dashboard/:path*"].some(
+        (route) => pathname.match(route),
+      )
+    ) {
+      route.push("/");
+    }
   };
 
   return (
@@ -75,6 +85,7 @@ const Navbar = () => {
               <DropdownItem
                 key="dashboard"
                 startContent={<LayoutDashboard className="size-5" />}
+                onPress={() => route.push("/dashboard")}
               >
                 Dashboard
               </DropdownItem>
@@ -83,6 +94,7 @@ const Navbar = () => {
               <DropdownItem
                 key="profile"
                 startContent={<UserCog className="size-5" />}
+                onPress={() => route.push("/profile")}
               >
                 Profile
               </DropdownItem>
