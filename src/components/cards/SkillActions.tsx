@@ -15,9 +15,9 @@ const SkillActions = () => {
       radius="sm"
     >
       <DropdownTrigger className="outline-none">
-        <button className="p-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 hover:text-royal-blue-500 hover:border-royal-blue-500 transition-all active:bg-white">
+        <span className="p-1 cursor-pointer rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 hover:text-royal-blue-500 hover:border-royal-blue-500 transition-all active:bg-white">
           <MoreVertical />
-        </button>
+        </span>
       </DropdownTrigger>
       <DropdownMenu
         aria-label="skill-actions"

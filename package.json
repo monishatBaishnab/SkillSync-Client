@@ -30,6 +30,7 @@
   "@preact/signals-core": "^1.8.0",
   "@react-aria/ssr": "3.9.7",
   "@react-aria/visually-hidden": "3.8.18",
+  "@reduxjs/toolkit": "^2.5.1",
   "@schedule-x/calendar": "^2.16.0",
   "@schedule-x/event-modal": "^2.16.1",
   "@schedule-x/events-service": "^2.16.0",
@@ -38,13 +39,17 @@
   "clsx": "2.1.1",
   "framer-motion": "11.13.1",
   "intl-messageformat": "^10.5.0",
+  "jwt-decode": "^4.0.0",
   "lucide-react": "^0.474.0",
   "next": "15.0.4",
   "next-themes": "^0.4.4",
   "preact": "^10.25.4",
   "react": "18.3.1",
   "react-dom": "18.3.1",
-  "react-hook-form": "^7.54.2"
+  "react-hook-form": "^7.54.2",
+  "react-redux": "^9.2.0",
+  "redux-persist": "^6.0.0",
+  "sonner": "^1.7.3"
  },
  "devDependencies": {
   "@next/eslint-plugin-next": "15.0.4",

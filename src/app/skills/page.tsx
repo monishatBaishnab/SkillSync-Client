@@ -5,21 +5,8 @@ import { Select, SelectItem } from "@heroui/select";
 
 import SkillCard from "@//components/cards/SkillCard";
 import { availability, categories } from "@//config/category.config";
-const selectClasses = {
-  base: "justify-start data-[has-label=true]:mt-[0px]",
-  mainWrapper: "group-data-[has-label=true]:!mt-7",
-  helperWrapper: "!mt-4",
-  label: "!cursor-text !text-base font-medium !top-[20px]",
-  trigger: [
-    "!transition !bg-white !border !border-solid_border hover:!border-primary",
-    "data-[open=true]:!ring data-[open=true]:!ring-2 data-[open=true]:!ring-primary data-[open=true]:!ring-offset-2 data-[open=true]:!border-solid_border",
-  ],
-  popoverContent: "!rounded-md p-0",
-};
+import { selectClasses, selectItemsClasses } from "@//components/form/TSelect";
 
-const selectItemsClasses = {
-  base: "py-2.5 px-3 !rounded-md data-[hover=true]:bg-[#F4F4F4] data-[focus-visible=true]:bg-[#F4F4F4] data-[selected=true]:bg-[#F4F4F4] data-[selectable=true]:focus:bg-[#F4F4F4]",
-};
 const Skills = () => {
   return (
     <div className="container py-10">
