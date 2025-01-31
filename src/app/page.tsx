@@ -1,10 +1,18 @@
+"use client";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 
 import SkillCard from "../components/cards/SkillCard";
 import Scheduler from "../components/scheduler/Scheduler";
+import { useFetchAllSkillQuery } from "../redux/features/skill/skill.api";
+import { TSkill } from "../types/types";
+import SkillCardSkeleton from "../components/cards/SkillCardSkeleton";
 
 export default function Home() {
+  const { data: skillsResponse, isLoading: skillsLoading } =
+    useFetchAllSkillQuery([{ key: "limit", value: "5" }]);
+  const skills = skillsResponse?.data?.skills;
+
   return (
     <section>
       <div className="container py-14 space-y-4">
@@ -17,7 +25,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">Skills for You</h2>
               <Link
-                className="group flex items-center gap-1 text-neutral-600 transition-all hover:text-neutral-700 relative pr-6"
+                className="group flex items-center gap-1 text-royal-blue-500 transition-all hover:text-royal-blue-600 relative pr-6"
                 href={"/skills"}
               >
                 See all
@@ -25,11 +33,13 @@ export default function Home() {
               </Link>
             </div>
             <div className="grid gap-5 grid-cols-1">
-              <SkillCard />
-              <SkillCard />
-              <SkillCard />
-              <SkillCard />
-              <SkillCard />
+              {skillsLoading
+                ? Array.from({ length: 5 }).map((_, id) => (
+                    <SkillCardSkeleton key={id} />
+                  ))
+                : skills?.map((skill: TSkill) => (
+                    <SkillCard key={skill?.id} skill={skill} />
+                  ))}
             </div>
           </div>
         </div>
