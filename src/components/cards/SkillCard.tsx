@@ -39,7 +39,7 @@ const SkillCard = ({ mode = "all-skill", skill, actions }: TSkillCardProps) => {
                 skill?.Availability?.filter(
                   (item) => item?.status === "AVAILABLE",
                 )?.length
-              }
+              }{" "}
               Slots
             </div>
             <div className="flex items-center gap-1 text-sm text-neutral-500">
@@ -51,15 +51,15 @@ const SkillCard = ({ mode = "all-skill", skill, actions }: TSkillCardProps) => {
       </div>
       <div>
         {mode === "all-skill" ? (
-          user?.email ? (
-            <EnrollSession skillId={skill?.id} />
-          ) : (
+          !user?.email || skill?.user_id === user?.id ? (
             <button
               disabled
               className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
             >
               <Video className="size-4" /> Join
             </button>
+          ) : (
+            <EnrollSession skillId={skill?.id} />
           )
         ) : (
           actions

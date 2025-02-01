@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@heroui/dropdown";
-import { MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { MoreVertical, Pencil, Plus, Trash2 } from "lucide-react";
 
 const SkillActions = ({ onAction }: { onAction: (event: string) => void }) => {
   return (
@@ -29,6 +29,13 @@ const SkillActions = ({ onAction }: { onAction: (event: string) => void }) => {
           ],
         }}
       >
+        <DropdownItem
+          key="create-availability"
+          startContent={<Plus className="size-5" />}
+          onPress={() => onAction("create-availability")}
+        >
+          Create Availability
+        </DropdownItem>
         <DropdownItem
           key="update"
           startContent={<Pencil className="size-5" />}

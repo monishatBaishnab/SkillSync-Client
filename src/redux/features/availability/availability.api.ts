@@ -16,7 +16,7 @@ const availabilityApi = baseApi.injectEndpoints({
           params,
         };
       },
-      providesTags: ['availabilities']
+      providesTags: ["availabilities"],
     }),
     createAvailability: builder.mutation({
       query: (data) => {
@@ -26,7 +26,7 @@ const availabilityApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ['availabilities']
+      invalidatesTags: ["availabilities", "skills"],
     }),
     updateAvailability: builder.mutation({
       query: (data) => {
@@ -36,7 +36,7 @@ const availabilityApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ['availabilities']
+      invalidatesTags: ["availabilities"],
     }),
   }),
 });

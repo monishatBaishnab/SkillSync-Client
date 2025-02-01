@@ -36,6 +36,8 @@
   "@schedule-x/events-service": "^2.16.0",
   "@schedule-x/react": "^2.16.0",
   "@schedule-x/theme-default": "^2.16.0",
+  "@smastrom/react-rating": "^1.5.0",
+  "add": "^2.0.6",
   "clsx": "2.1.1",
   "framer-motion": "11.13.1",
   "intl-messageformat": "^10.5.0",
@@ -50,7 +52,8 @@
   "react-hook-form": "^7.54.2",
   "react-redux": "^9.2.0",
   "redux-persist": "^6.0.0",
-  "sonner": "^1.7.3"
+  "sonner": "^1.7.3",
+  "yarn": "^1.22.22"
  },
  "devDependencies": {
   "@next/eslint-plugin-next": "15.0.4",

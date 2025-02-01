@@ -6,7 +6,7 @@ type TUser = {
   email: string;
   role: "LEARNER" | "TEACHER"| "ADMIN";
   iat: number;
-  profile_picture: string | undefined;
+  name:string;
   exp: number;
 };
 

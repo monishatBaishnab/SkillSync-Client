@@ -17,10 +17,18 @@ import { TSkill } from "@//types/types";
 import useUser from "@//hooks/useUser";
 import SkillCardSkeleton from "@//components/cards/SkillCardSkeleton";
 import SkillActions from "@//components/cards/SkillActions";
+import AvailabilityCreationModal from "@//components/skills/CreateAvailability";
+import { useCreateAvailabilityMutation } from "@//redux/features/availability/availability.api";
 
 const Skills = () => {
   const user = useUser();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const {
+    isOpen: isAvlOpen,
+    onOpen: avlOpen,
+    onOpenChange: avlOpenChange,
+    onClose: avlClose,
+  } = useDisclosure();
   const [skill, setSkill] = useState<TSkill | undefined>();
 
   const {
@@ -37,6 +45,11 @@ const Skills = () => {
   const [updateSkill, { isLoading: updating, isSuccess: updated }] =
     useUpdateSkillMutation();
   const [deleteSkill] = useDeleteSkillMutation();
+
+  const [
+    createAvailability,
+    { isLoading: creatingAvl, isSuccess: createdAvl },
+  ] = useCreateAvailabilityMutation();
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     const categories = Array.from(data?.category);
@@ -62,6 +75,10 @@ const Skills = () => {
   };
 
   const handleAction = (action: string, data: TSkill) => {
+    if (action === "create-availability") {
+      avlOpen();
+      setSkill(data);
+    }
     if (action === "update") {
       setSkill(data);
       onOpen();
@@ -70,12 +87,30 @@ const Skills = () => {
     }
   };
 
+  const handleCreateAvailability: SubmitHandler<FieldValues> = (data) => {
+    const avlData = {
+      ...data,
+      status: "AVAILABLE",
+      skill_id: skill?.id,
+      teacher_id: user?.id,
+    };
+
+    createAvailability(avlData);
+  };
+
   useEffect(() => {
     if ((!creating && created) || (!updating && updated)) {
       onClose();
       toast.success("Action Completed.");
     }
   }, [creating, updating, created, updated]);
+
+  useEffect(() => {
+    if (!creatingAvl && createdAvl) {
+      avlClose();
+      toast.success("Availability created.");
+    }
+  }, [creatingAvl, createdAvl]);
 
   return (
     <div className="container py-10 space-y-4">
@@ -115,6 +150,12 @@ const Skills = () => {
               />
             ))}
       </div>
+      <AvailabilityCreationModal
+        isLoading={creatingAvl}
+        isOpen={isAvlOpen}
+        onOpenChange={avlOpenChange}
+        onSubmit={handleCreateAvailability}
+      />
     </div>
   );
 };

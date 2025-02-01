@@ -26,7 +26,7 @@ const sessionApi = baseApi.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: ["sessions", "availabilities"],
+      invalidatesTags: ["sessions", "availabilities", 'skills'],
     }),
     updateSession: builder.mutation({
       query: (data) => {

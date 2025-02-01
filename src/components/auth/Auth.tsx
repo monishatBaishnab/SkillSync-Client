@@ -14,6 +14,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { cn } from "@heroui/theme";
 
 import TForm from "../form/TForm";
 import TInput from "../form/TInput";
@@ -30,6 +31,12 @@ const Auth = () => {
   const [mode, setMode] = useState<"login" | "register">("login");
   const dispatch = useAppDispatch();
   const [registerUser, { isLoading, data, isSuccess }] = useRegisterMutation();
+  const [active, setActive] = useState<"learner" | "teacher">("learner");
+  const [defaultValues, setDefaultValues] = useState({
+    email: "monishat@learner.com",
+    password: "11",
+  });
+
   const [
     loginUser,
     { isLoading: loggining, data: loginData, isSuccess: loginSuccess },
@@ -42,21 +49,10 @@ const Auth = () => {
 
   // Function for handle register
   const handleRegister = (data: FieldValues) => {
-    const userData = { ...data };
+    const role = Array.from(data?.role)[0] || "LEARNER";
 
-    // Remove profilePhoto from the userData
-    delete userData.profile;
-
-    // Create FormData instance
-    const formData = new FormData();
-
-    formData.append("data", JSON.stringify(userData));
-
-    if (data.profile) {
-      formData.append("file", data.profile);
-    }
     // Pass FormData to the mutate function
-    registerUser(formData);
+    registerUser({ ...data, role });
   };
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -68,7 +64,7 @@ const Auth = () => {
     if (isSuccess && !isLoading) {
       const user = jwtDecode(data.data.token);
 
-      Cookies.set('token', loginData.data.token);
+      Cookies.set("token", data.data.token);
       toast.success("Register Success.");
       dispatch(login({ user, token: data.data.token }));
       onClose();
@@ -78,12 +74,32 @@ const Auth = () => {
     if (loginSuccess && !loggining) {
       const user = jwtDecode(loginData.data.token);
 
-      Cookies.set('token', loginData.data.token);
+      Cookies.set("token", loginData.data.token);
       toast.success("Login Success.");
       dispatch(login({ user, token: loginData.data.token }));
       onClose();
     }
   }, [loggining, loginData, loginSuccess, dispatch]);
+
+  const handleCredentialsUpdate = (role: "learner" | "teacher") => {
+    if (role === "learner") {
+      const values = {
+        email: "monishat@learner.com",
+        password: "11",
+      };
+
+      setDefaultValues(values);
+      setActive(role);
+    } else if (role === "teacher") {
+      const values = {
+        email: "monishat@teacher.com",
+        password: "11",
+      };
+
+      setDefaultValues(values);
+      setActive(role);
+    }
+  };
 
   return (
     <>
@@ -106,7 +122,31 @@ const Auth = () => {
                 {mode === "login" ? "Login" : "Register"}
               </ModalHeader>
               <ModalBody>
-                <TForm onSubmit={handleSubmit}>
+                <div className="flex items-center gap-4 justify-center">
+                  <button
+                    className={cn(
+                      "px-2 py-1 border border-neutral-200 rounded-md text-nowrap",
+                      active === "learner"
+                        ? "text-royal-blue-500 border-royal-blue-500"
+                        : "",
+                    )}
+                    onClick={() => handleCredentialsUpdate("learner")}
+                  >
+                    Learner
+                  </button>
+                  <button
+                    className={cn(
+                      "px-2 py-1 border border-neutral-200 rounded-md text-nowrap",
+                      active === "teacher"
+                        ? "text-royal-blue-500 border-royal-blue-500"
+                        : "",
+                    )}
+                    onClick={() => handleCredentialsUpdate("teacher")}
+                  >
+                    Teacher
+                  </button>
+                </div>
+                <TForm defaultValues={defaultValues} onSubmit={handleSubmit}>
                   <div className="pb-4 space-y-5">
                     {mode === "register" && (
                       <TInput

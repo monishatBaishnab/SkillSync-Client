@@ -20,7 +20,16 @@ const authApi = baseApi.injectEndpoints({
         };
       },
     }),
+    updateProfile: builder.mutation({
+      query: ({ data, id }) => {
+        return {
+          url: `/auth/update-profile/${id}`,
+          method: "PUT",
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
-export const { useLogInMutation, useRegisterMutation } = authApi;
+export const { useLogInMutation, useRegisterMutation, useUpdateProfileMutation } = authApi;
