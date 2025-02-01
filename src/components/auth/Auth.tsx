@@ -50,7 +50,6 @@ const Auth = () => {
   const handleRegister = (data: FieldValues) => {
     const role = Array.from(data?.role)[0] || "LEARNER";
 
-    console.log({ ...data, role });
     // Pass FormData to the mutate function
     registerUser({ ...data, role });
   };

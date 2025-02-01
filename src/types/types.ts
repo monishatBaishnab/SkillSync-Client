@@ -23,4 +23,10 @@ export type TAvailability = {
   createdAt: Date;
   updatedAt: Date;
   isDeleted: boolean;
+  skill: {
+    name: string;
+  };
+  teacher: {
+    name: string;
+  };
 };

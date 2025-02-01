@@ -1,53 +1,50 @@
-# Next.js & HeroUI Template
+# **SkillSync: A Collaborative Learning Platform**  
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+## **Project Overview**  
+**SkillSync** is a **peer-to-peer skill-sharing platform** that enables users to connect, teach, and learn new skills. The platform allows users to create profiles, list skills they can teach, and schedule sessions for skills they want to learn. With a structured session booking system, availability management, and a review system, SkillSync provides a seamless collaborative learning experience.  
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+The application includes:  
+- **User Authentication:** Secure signup and login with JWT-based authentication.  
+- **Skill Management:** Users can add, update, or remove teachable skills.  
+- **Session Booking:** Learners can request sessions based on teacher availability.  
+- **Availability Scheduling:** Teachers can set available time slots for booking.   
+- **Admin Dashboard:** Manage users, monitor skills, and analyze session trends.  
 
-## Technologies Used
+## **Project Description**  
+SkillSync is designed to **simplify skill-sharing** through a structured approach. The platform categorizes skills into multiple category, allowing learners to filter and book sessions efficiently. Teachers set their availability, preventing scheduling conflicts.  
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+Built with **Next.js (Frontend) and Express.js (Backend)**, SkillSync ensures a **responsive and scalable** user experience. PostgreSQL serves as the **relational database**, optimizing skill and session management. The admin dashboard enables **effective monitoring** of platform activities, ensuring a smooth learning ecosystem.  
 
-## How to Use
+### **Key Features:**  
+✔ **User Authentication:** Secure authentication with role-based access (Learner, Teacher, Admin).  
+✔ **Dashboard:** View available teachers, scheduled sessions, and skill categories.  
+✔ **Session Booking:** Book sessions within teacher-set availability slots.  
+✔ **Skill Management:** Add, edit, or remove teachable skills with categorization.   
+✔ **Conflict-Free Scheduling:** Prevent overlapping bookings with real-time availability checks.  
+✔ **Admin Panel:** Manage users, track session trends, and oversee skill distribution.  
 
-### Use the template with create-next-app
+### **Tech Stack:**  
+- **Frontend:** Next.js, TypeScript, TailwindCSS  
+- **Backend:** Node.js, Express.js, Prisma ORM  
+- **Database:** PostgreSQL  
+- **Authentication:** JWT (JSON Web Token)  
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## **Setup Instructions**  
+1. **Clone the repository:**  
+   ```bash
+   git clone https://github.com/monishatBaishnab/SkillSync-Client.git
+   cd SkillSync
+   ```  
+2. **Install dependencies:**  
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```  
+3. **Set up environment variables:**  
+   Create a `.env` file and add your database credentials:  
 
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
-```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
-npm install
-```
-
-### Run the development server
-
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+4. **Start the development server:**  
+   ```bash
+   npm run dev
+   ```  

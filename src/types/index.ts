@@ -1,9 +1,3 @@
-import { SVGProps } from "react";
-
-export type IconSvgProps = SVGProps<SVGSVGElement> & {
-  size?: number;
-};
-
 import { ReactNode } from "react";
 
 export type TLayout = { children: ReactNode };
@@ -17,11 +11,10 @@ export type TFormElementProps = {
   fullWidth?: boolean;
   type?: string;
   startContent?: ReactNode;
-  endContent?:ReactNode
+  endContent?: ReactNode;
 };
 
 export type TQueryParams = { name: string; value: string }[] | undefined;
-
 
 export interface Session {
   id: string;
@@ -36,6 +29,12 @@ export interface Session {
   updatedAt: string;
   isDeleted: boolean;
   skill?: {
+    name: string;
+  };
+  teacher?: {
+    name: string;
+  };
+  learner?: {
     name: string;
   };
 }

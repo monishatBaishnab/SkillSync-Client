@@ -67,7 +67,9 @@ export default function Home() {
             <h2 className="text-xl font-bold">See Your Next Schedules</h2>
             {schedulerData?.length ? (
               <Scheduler schedulerData={schedulerData} />
-            ) : <EmptyScheduler />}
+            ) : (
+              <EmptyScheduler />
+            )}
           </div>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
