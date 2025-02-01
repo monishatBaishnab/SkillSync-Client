@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  LayoutDashboard,
-  LogOut,
-  MessageSquareShare,
-  Settings,
-  User,
-  UserCog,
-} from "lucide-react";
+import { LayoutDashboard, LogOut, Settings, User, UserCog } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Dropdown,
   DropdownTrigger,
@@ -19,22 +12,17 @@ import {
 } from "@heroui/dropdown";
 import Cookies from "js-cookie";
 import { useDisclosure } from "@heroui/modal";
-import { FieldValues, SubmitHandler } from "react-hook-form";
-import { toast } from "sonner";
 
 import logo from "../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/features/auth/auth.slice";
-import { useCreateReviewMutation } from "../redux/features/review/review.api";
 
 import Auth from "./auth/Auth";
-import CreateFeedback from "./feeback/CreateFeedback";
 import ProfileUpdater from "./auth/ProfileUpdater";
 
 const Navbar = () => {
   const route = useRouter();
   const user = useAppSelector((state) => state.auth.user);
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const {
     isOpen: isPOpen,
     onOpen: pOpen,
@@ -56,21 +44,6 @@ const Navbar = () => {
     }
   };
 
-  const [createFeedback, { isLoading, isSuccess }] = useCreateReviewMutation();
-
-  const handleCreateFeedback: SubmitHandler<FieldValues> = (data) => {
-    const rData = { ...data, reviewer_id: user?.id };
-
-    createFeedback(rData);
-  };
-
-  useEffect(() => {
-    if (!isLoading && isSuccess) {
-      onClose();
-      toast.success("Feedback created.");
-    }
-  }, [isLoading, isSuccess]);
-
   return (
     <div className="h-full flex items-center gap-2 justify-between container">
       <button
@@ -88,13 +61,6 @@ const Navbar = () => {
       </button>
 
       <div className="flex items-center gap-4">
-        <button
-          className="px-3 py-1.5 flex items-center text-sm gap-1 rounded-md border border-neutral-200 bg-neutral-50/50 text-neutral-600 hover:text-royal-blue-500 hover:border-royal-blue-500 transition-all active:bg-white disabled:opacity-80 disabled:hover:border-neutral-200 disabled:active:bg-neutral-50/50 disabled:hover:text-neutral-600"
-          disabled={!user?.id}
-          onClick={onOpen}
-        >
-          <MessageSquareShare className="size-4" /> Give Feedback
-        </button>
         {user?.email ? (
           <Dropdown
             classNames={{ content: "border-neutral-100 p-0" }}
@@ -117,7 +83,7 @@ const Navbar = () => {
               }}
             >
               <DropdownItem
-                key="dashboard"
+                key="update-profile"
                 startContent={<Settings className="size-5" />}
                 onPress={pOpen}
               >
@@ -155,14 +121,6 @@ const Navbar = () => {
           <Auth />
         )}
       </div>
-
-      <CreateFeedback
-        isLoading={isLoading}
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        onSubmit={handleCreateFeedback}
-      />
-
       <ProfileUpdater
         isOpen={isPOpen}
         onClose={pClose}

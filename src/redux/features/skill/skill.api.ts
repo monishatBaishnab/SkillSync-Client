@@ -45,7 +45,7 @@ const sessionApi = baseApi.injectEndpoints({
           method: `DELETE`,
         };
       },
-      invalidatesTags: ["skills"]
+      invalidatesTags: ["skills"],
     }),
   }),
 });
@@ -54,5 +54,5 @@ export const {
   useFetchAllSkillQuery,
   useCreateSkillMutation,
   useUpdateSkillMutation,
-  useDeleteSkillMutation
+  useDeleteSkillMutation,
 } = sessionApi;

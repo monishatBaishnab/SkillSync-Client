@@ -117,7 +117,8 @@ const Skills = () => {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">My Skills</h2>
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all"
+          disabled
+          className="flex items-center gap-2 px-4 py-2 bg-royal-blue-500 text-white rounded-md hover:bg-royal-blue-500/90 active:bg-royal-blue-600/90 transition-all disabled:opacity-80 disabled:hover:bg-royal-blue-500 disabled:active:bg-royal-blue-500"
           onClick={() => {
             onOpen();
             setSkill(undefined);

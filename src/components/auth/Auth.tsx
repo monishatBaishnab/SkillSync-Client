@@ -31,11 +31,10 @@ const Auth = () => {
   const [mode, setMode] = useState<"login" | "register">("login");
   const dispatch = useAppDispatch();
   const [registerUser, { isLoading, data, isSuccess }] = useRegisterMutation();
-  const [active, setActive] = useState<"learner" | "teacher">("learner");
-  const [defaultValues, setDefaultValues] = useState({
-    email: "monishat@learner.com",
-    password: "11",
-  });
+  const [active, setActive] = useState<"learner" | "teacher" | "admin">(
+    "learner",
+  );
+  const [defaultValues, setDefaultValues] = useState({});
 
   const [
     loginUser,
@@ -44,13 +43,14 @@ const Auth = () => {
 
   // Function for handle login
   const handleLogin = (data: FieldValues) => {
-    loginUser(data as FormData);
+    loginUser({ email: data?.email, password: data?.password });
   };
 
   // Function for handle register
   const handleRegister = (data: FieldValues) => {
     const role = Array.from(data?.role)[0] || "LEARNER";
 
+    console.log({ ...data, role });
     // Pass FormData to the mutate function
     registerUser({ ...data, role });
   };
@@ -81,11 +81,13 @@ const Auth = () => {
     }
   }, [loggining, loginData, loginSuccess, dispatch]);
 
-  const handleCredentialsUpdate = (role: "learner" | "teacher") => {
+  const handleCredentialsUpdate = (role: "learner" | "teacher" | "admin") => {
     if (role === "learner") {
       const values = {
         email: "monishat@learner.com",
         password: "11",
+        name: "",
+        role: "",
       };
 
       setDefaultValues(values);
@@ -93,6 +95,14 @@ const Auth = () => {
     } else if (role === "teacher") {
       const values = {
         email: "monishat@teacher.com",
+        password: "11",
+      };
+
+      setDefaultValues(values);
+      setActive(role);
+    } else if (role === "admin") {
+      const values = {
+        email: "monishat@admin.com",
         password: "11",
       };
 
@@ -145,6 +155,17 @@ const Auth = () => {
                   >
                     Teacher
                   </button>
+                  <button
+                    className={cn(
+                      "px-2 py-1 border border-neutral-200 rounded-md text-nowrap",
+                      active === "admin"
+                        ? "text-royal-blue-500 border-royal-blue-500"
+                        : "",
+                    )}
+                    onClick={() => handleCredentialsUpdate("admin")}
+                  >
+                    Admin
+                  </button>
                 </div>
                 <TForm defaultValues={defaultValues} onSubmit={handleSubmit}>
                   <div className="pb-4 space-y-5">
@@ -152,7 +173,7 @@ const Auth = () => {
                       <TInput
                         name="name"
                         placeholder="Write your full name."
-                        type="email"
+                        type="text"
                       />
                     )}
                     <TInput

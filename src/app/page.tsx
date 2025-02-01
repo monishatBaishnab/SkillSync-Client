@@ -56,9 +56,8 @@ export default function Home() {
       value: user?.id as string,
     },
   ]);
-  const schedulerData = transformSessions(data?.data?.sessions);
 
-  console.log(schedulerData);
+  const schedulerData = transformSessions(data?.data?.sessions);
 
   return (
     <section>
