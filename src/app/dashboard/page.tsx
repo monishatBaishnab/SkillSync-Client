@@ -3,6 +3,7 @@ import React from "react";
 import SkillTable from "@//components/table/SkillTable";
 import SessionTable from "@//components/table/SessionTable";
 import AvailabilitiesTable from "@//components/table/AvailabilityTable";
+import AvailableTeachersTable from "@//components/table/TeachersTable";
 
 const Dashboard = () => {
   return (
@@ -13,6 +14,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="">
+        <AvailableTeachersTable />
         <SkillTable />
         <SessionTable />
         <AvailabilitiesTable />

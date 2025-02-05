@@ -10,6 +10,7 @@ export type TSkill = {
   isDeleted: boolean;
   user?: { name: string };
   Availability?: [{ id: string; status: "AVAILABLE" | "BOOKED" }];
+  Session: { learner: { id: string } }[];
 };
 
 export type TAvailability = {
@@ -29,4 +30,17 @@ export type TAvailability = {
   teacher: {
     name: string;
   };
+};
+
+export type TUser = {
+  name: string;
+  id: string;
+  email: string;
+  password: string;
+  role: "LEARNER" | "TEACHER" | "ADMIN";
+  profile: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isDeleted: boolean;
+  Availability?: [{ id: string; status: "AVAILABLE" | "BOOKED" }];
 };

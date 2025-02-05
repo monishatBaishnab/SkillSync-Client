@@ -2,6 +2,21 @@ import { baseApi } from "../../base.api";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    fetchAvailableTeachers: builder.query({
+      query: (query: { key: string; value: string }[]) => {
+        const params = new URLSearchParams();
+
+        query?.forEach(({ key, value }) => {
+          params.append(key, value);
+        });
+
+        return {
+          url: "/auth/available-teachers",
+          method: "GET",
+          params,
+        };
+      },
+    }),
     logIn: builder.mutation({
       query: (userInfo) => {
         return {
@@ -32,4 +47,9 @@ const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useLogInMutation, useRegisterMutation, useUpdateProfileMutation } = authApi;
+export const {
+  useLogInMutation,
+  useRegisterMutation,
+  useUpdateProfileMutation,
+  useFetchAvailableTeachersQuery,
+} = authApi;

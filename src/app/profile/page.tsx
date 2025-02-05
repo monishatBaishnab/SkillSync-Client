@@ -138,7 +138,7 @@ const Skills = () => {
             onSubmit={handleSubmit}
           />
         </div>
-        {!skills?.length ? (
+        {!isLoading && !isFetching && !skills?.length ? (
           <div className="flex items-center justify-center flex-col">
             <FolderOpen className="text-neutral-500 size-16" />
             <h4 className="text-lg text-neutral-700 font-semibold">

@@ -1,10 +1,11 @@
 "use client";
 
-import { LayoutList, User, Video } from "lucide-react";
+import { LayoutList, MessageSquareDiff, User, Video } from "lucide-react";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 
 import EnrollSession from "../skills/EnrollSession";
+import CreateFeedback from "../feeback/CreateFeedback";
 
 import { TSkill } from "@//types/types";
 import { useAppSelector } from "@//redux/hooks";
@@ -17,6 +18,10 @@ type TSkillCardProps = {
 
 const SkillCard = ({ mode = "all-skill", skill, actions }: TSkillCardProps) => {
   const user = useAppSelector((state) => state.auth.user);
+
+  const enrolledSession = skill?.Session?.find(
+    (item) => item?.learner?.id === user?.id,
+  );
 
   return (
     <div className="flex justify-between items-center border p-3 rounded-md transition-all hover:ring-2 hover:ring-offset-2 hover:ring-royal-blue-500">
@@ -52,14 +57,34 @@ const SkillCard = ({ mode = "all-skill", skill, actions }: TSkillCardProps) => {
       <div>
         {mode === "all-skill" ? (
           !user?.email || skill?.user_id === user?.id ? (
-            <button
-              disabled
-              className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
-            >
-              <Video className="size-4" /> Join
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                disabled
+                className="px-4 py-1 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
+              >
+                <Video className="size-4" /> Join
+              </button>
+              <button
+                disabled
+                className="p-2 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
+              >
+                <MessageSquareDiff className="size-4" />
+              </button>
+            </div>
           ) : (
-            <EnrollSession skillId={skill?.id} />
+            <div className="flex items-center gap-1">
+              <EnrollSession skillId={skill?.id} />
+              {enrolledSession?.learner?.id ? (
+                <CreateFeedback skill_id={skill?.id} />
+              ) : (
+                <button
+                  disabled
+                  className="p-2 flex items-center gap-1 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-600 transition-all active:bg-white disabled:opacity-80 cursor-auto"
+                >
+                  <MessageSquareDiff className="size-4" />
+                </button>
+              )}
+            </div>
           )
         ) : (
           actions
